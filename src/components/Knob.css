@@ -1,0 +1,135 @@
+.knob-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0.5rem;
+  user-select: none;
+}
+
+.knob-label {
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: #2c3e50;
+  margin-bottom: 0.25rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.knob {
+  position: relative;
+  cursor: pointer;
+  transition: transform 0.1s ease;
+}
+
+.knob:hover {
+  transform: scale(1.05);
+}
+
+.knob.dragging {
+  transform: scale(1.1);
+  cursor: grabbing;
+}
+
+.knob.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.knob.disabled:hover {
+  transform: none;
+}
+
+.knob-body {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: linear-gradient(145deg, #ecf0f1, #bdc3c7);
+  box-shadow: 
+    inset 2px 2px 5px rgba(0,0,0,0.2),
+    inset -2px -2px 5px rgba(255,255,255,0.7),
+    2px 2px 8px rgba(0,0,0,0.1);
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.knob:active .knob-body {
+  box-shadow: 
+    inset 3px 3px 7px rgba(0,0,0,0.3),
+    inset -1px -1px 3px rgba(255,255,255,0.5),
+    1px 1px 4px rgba(0,0,0,0.1);
+}
+
+.knob-indicator {
+  position: absolute;
+  width: 3px;
+  height: 40%;
+  background: var(--knob-color, #3498db);
+  border-radius: 2px;
+  top: 8%;
+  left: 50%;
+  transform-origin: 50% 100%;
+  transform: translateX(-50%) rotate(0deg);
+  box-shadow: 0 0 4px rgba(0,0,0,0.3);
+  transition: background-color 0.2s ease;
+}
+
+.knob-center {
+  position: absolute;
+  width: 20%;
+  height: 20%;
+  border-radius: 50%;
+  background: radial-gradient(circle, #34495e, #2c3e50);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  box-shadow: 
+    inset 1px 1px 2px rgba(0,0,0,0.4),
+    0 0 3px rgba(0,0,0,0.2);
+}
+
+.knob-value {
+  margin-top: 0.25rem;
+  font-size: 0.65rem;
+  font-weight: 600;
+  color: #7f8c8d;
+  font-family: 'Courier New', monospace;
+  background: #ecf0f1;
+  padding: 2px 6px;
+  border-radius: 3px;
+  min-width: 40px;
+  text-align: center;
+  border: 1px solid #bdc3c7;
+}
+
+/* Hover effects */
+.knob:hover .knob-indicator {
+  background: color-mix(in srgb, var(--knob-color, #3498db) 80%, white);
+  box-shadow: 0 0 6px var(--knob-color, #3498db);
+}
+
+.knob:hover .knob-value {
+  background: #d5dbdb;
+  border-color: #95a5a6;
+}
+
+/* Active state */
+.knob.dragging .knob-indicator {
+  background: color-mix(in srgb, var(--knob-color, #3498db) 90%, white);
+  box-shadow: 0 0 8px var(--knob-color, #3498db);
+}
+
+.knob.dragging .knob-value {
+  background: #ffffff;
+  border-color: var(--knob-color, #3498db);
+  color: #2c3e50;
+}
+
+/* Different knob colors */
+.knob[style*="--knob-color: #e74c3c"] .knob-value,
+.knob[style*="--knob-color: #f39c12"] .knob-value,
+.knob[style*="--knob-color: #27ae60"] .knob-value,
+.knob[style*="--knob-color: #8e44ad"] .knob-value {
+  color: #2c3e50;
+}

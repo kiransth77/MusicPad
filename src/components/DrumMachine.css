@@ -1,0 +1,79 @@
+/* High-performance drum machine layout */
+.drum-machine {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+  contain: layout style;
+}
+
+.machine-title {
+  color: #ffffff;
+  font-family: 'Arial', sans-serif;
+  font-size: 18px;
+  margin: 0 0 20px 0;
+  text-align: center;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+}
+
+.drum-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-bottom: 20px;
+  will-change: contents;
+}
+
+.controls {
+  width: 100%;
+  max-width: 400px;
+}
+
+.key-hints {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+  font-size: 10px;
+  color: #cccccc;
+  font-family: 'Arial', sans-serif;
+}
+
+.key-hint {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 2px 6px;
+  border-radius: 4px;
+  white-space: nowrap;
+}
+
+.drum-machine.loading {
+  justify-content: center;
+  min-height: 200px;
+}
+
+.loading-spinner {
+  color: #ffffff;
+  font-size: 16px;
+  text-align: center;
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+/* Responsive design for mobile devices */
+@media (max-width: 480px) {
+  .drum-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+  }
+  
+  .key-hints {
+    font-size: 8px;
+  }
+}

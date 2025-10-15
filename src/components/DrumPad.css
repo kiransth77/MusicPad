@@ -1,0 +1,54 @@
+/* High-performance drum pad with minimal reflow */
+.drum-pad {
+  position: relative;
+  width: 80px;
+  height: 80px;
+  border: 2px solid var(--pad-color, #333);
+  border-radius: 8px;
+  background: linear-gradient(135deg, var(--pad-color, #333) 0%, transparent 100%);
+  color: white;
+  font-family: 'Arial', sans-serif;
+  font-weight: bold;
+  font-size: 12px;
+  cursor: pointer;
+  user-select: none;
+  transition: transform 0.05s ease, box-shadow 0.05s ease;
+  outline: none;
+  will-change: transform;
+  contain: layout style;
+}
+
+.drum-pad:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.drum-pad:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
+  background: var(--pad-color, #333);
+}
+
+.drum-pad:focus {
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.3);
+}
+
+.drum-pad.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.drum-pad.disabled:hover {
+  transform: none;
+  box-shadow: none;
+}
+
+.pad-label {
+  position: absolute;
+  bottom: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+}

@@ -1,0 +1,228 @@
+.pressure-button {
+  position: relative;
+  overflow: hidden;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  transition: all 0.1s ease-out;
+  user-select: none;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  
+  /* Enable hardware acceleration */
+  will-change: transform, filter;
+  backface-visibility: hidden;
+  transform-style: preserve-3d;
+}
+
+.pressure-button:focus {
+  outline: 2px solid #3498db;
+  outline-offset: 2px;
+}
+
+.pressure-button.pressed {
+  transition: none; /* Disable transitions during active pressure */
+}
+
+.pressure-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* Pressure indicator */
+.pressure-indicator {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  width: 8px;
+  height: 30px;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  z-index: 10;
+}
+
+.pressure-bar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(to top, #e74c3c, #f39c12, #27ae60);
+  transition: height 0.05s ease-out;
+  border-radius: 0 0 3px 3px;
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.3);
+}
+
+.pressure-value {
+  position: absolute;
+  top: -20px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 8px;
+  font-weight: bold;
+  color: #2c3e50;
+  background: rgba(255, 255, 255, 0.9);
+  padding: 1px 3px;
+  border-radius: 2px;
+  white-space: nowrap;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+/* Pressure ripple effect */
+.pressure-ripple {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(255, 255, 255, 0.8) 0%,
+    rgba(255, 255, 255, 0.4) 30%,
+    transparent 70%
+  );
+  transform: translate(-50%, -50%) scale(0);
+  pointer-events: none;
+  z-index: 5;
+  animation: pressureRipple 0.3s ease-out infinite;
+}
+
+@keyframes pressureRipple {
+  0% {
+    transform: translate(-50%, -50%) scale(0);
+    opacity: 0.8;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(3);
+    opacity: 0;
+  }
+}
+
+/* Pressure intensity glow effect */
+.pressure-button.pressed::after {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  background: linear-gradient(
+    45deg,
+    rgba(52, 152, 219, 0.6),
+    rgba(155, 89, 182, 0.6),
+    rgba(231, 76, 60, 0.6),
+    rgba(243, 156, 18, 0.6)
+  );
+  border-radius: inherit;
+  z-index: -1;
+  filter: blur(4px);
+  opacity: var(--pressure-intensity, 0);
+  animation: pressureGlow 0.1s ease-out;
+}
+
+@keyframes pressureGlow {
+  0% {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  100% {
+    opacity: var(--pressure-intensity, 1);
+    transform: scale(1);
+  }
+}
+
+/* Different pressure levels - color coding */
+.pressure-button[style*="--current-pressure: 0.1"] {
+  box-shadow: 0 0 5px rgba(46, 204, 113, 0.4);
+}
+
+.pressure-button[style*="--current-pressure: 0.3"] {
+  box-shadow: 0 0 8px rgba(241, 196, 15, 0.5);
+}
+
+.pressure-button[style*="--current-pressure: 0.5"] {
+  box-shadow: 0 0 12px rgba(230, 126, 34, 0.6);
+}
+
+.pressure-button[style*="--current-pressure: 0.7"] {
+  box-shadow: 0 0 15px rgba(231, 76, 60, 0.7);
+}
+
+.pressure-button[style*="--current-pressure: 1"] {
+  box-shadow: 0 0 20px rgba(192, 57, 43, 0.8);
+}
+
+/* Haptic feedback visual cue */
+.pressure-button.pressed {
+  position: relative;
+}
+
+.pressure-button.pressed::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(
+    circle at center,
+    rgba(255, 255, 255, 0.2) 0%,
+    transparent 60%
+  );
+  pointer-events: none;
+  z-index: 8;
+  animation: hapticPulse 0.2s ease-out;
+}
+
+@keyframes hapticPulse {
+  0% {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1);
+  }
+}
+
+/* Accessibility improvements */
+.pressure-button:focus-visible {
+  outline: 3px solid #3498db;
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pressure-button,
+  .pressure-bar,
+  .pressure-ripple,
+  .pressure-button::after,
+  .pressure-button::before {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .pressure-indicator {
+    border: 2px solid;
+    background: white;
+  }
+  
+  .pressure-bar {
+    background: black;
+  }
+  
+  .pressure-value {
+    background: white;
+    color: black;
+    border: 1px solid black;
+  }
+}
