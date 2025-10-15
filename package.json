@@ -19,6 +19,7 @@
   "scripts": {
     "dev": "vite --host",
     "build": "tsc && vite build",
+    "build:pages": "tsc && vite build --base=/MusicPad/",
     "preview": "vite preview --host --port 4173",
     "type-check": "tsc --noEmit",
     "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
