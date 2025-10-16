@@ -1,5 +1,6 @@
 import { useState, useRef, useCallback } from 'react';
 import * as Tone from 'tone';
+import { useAudioEngine } from '../hooks/useAudioEngine';
 import './RecordingPanel.css';
 
 interface RecordingPanelProps {
@@ -15,6 +16,7 @@ interface RecordedClip {
 }
 
 export const RecordingPanel: React.FC<RecordingPanelProps> = ({ isAudioReady }) => {
+  const { engine } = useAudioEngine();
   const [isRecording, setIsRecording] = useState(false);
   const [isPaused, setIsPaused] = useState(false);
   const [recordingTime, setRecordingTime] = useState(0);
@@ -23,7 +25,7 @@ export const RecordingPanel: React.FC<RecordingPanelProps> = ({ isAudioReady }) 
   const [isPlaying, setIsPlaying] = useState<string | null>(null);
 
   const recorderRef = useRef<Tone.Recorder | null>(null);
-  const timerRef = useRef<NodeJS.Timeout | null>(null);
+  const timerRef = useRef<number | null>(null);
   const startTimeRef = useRef<number>(0);
 
   const formatTime = useCallback((seconds: number): string => {
@@ -33,15 +35,11 @@ export const RecordingPanel: React.FC<RecordingPanelProps> = ({ isAudioReady }) 
   }, []);
 
   const startRecording = useCallback(async () => {
-    if (!isAudioReady) return;
+    if (!isAudioReady || !engine) return;
 
     try {
-      // Get the audio engine and create recorder
-      const { HighPerformanceAudioEngine } = await import('../audio/AudioEngine');
-      const audioEngine = HighPerformanceAudioEngine.getInstance();
-      
       // Create recorder connected to master output
-      const recorder = audioEngine.createRecorder();
+      const recorder = engine.createRecorder();
       recorderRef.current = recorder;
       
       // Start recording
@@ -52,7 +50,7 @@ export const RecordingPanel: React.FC<RecordingPanelProps> = ({ isAudioReady }) 
       startTimeRef.current = Date.now();
       
       // Start timer
-      timerRef.current = setInterval(() => {
+      timerRef.current = window.setInterval(() => {
         const elapsed = (Date.now() - startTimeRef.current) / 1000;
         setRecordingTime(elapsed);
       }, 100);
@@ -68,7 +66,7 @@ export const RecordingPanel: React.FC<RecordingPanelProps> = ({ isAudioReady }) 
         timerRef.current = null;
       }
     }
-  }, [isAudioReady]);
+  }, [isAudioReady, engine]);
 
   const stopRecording = useCallback(async () => {
     if (!recorderRef.current || !isRecording) return;
@@ -119,7 +117,7 @@ export const RecordingPanel: React.FC<RecordingPanelProps> = ({ isAudioReady }) 
 
   const resumeRecording = useCallback(() => {
     startTimeRef.current = Date.now() - (recordingTime * 1000);
-    timerRef.current = setInterval(() => {
+    timerRef.current = window.setInterval(() => {
       const elapsed = (Date.now() - startTimeRef.current) / 1000;
       setRecordingTime(elapsed);
     }, 100);
