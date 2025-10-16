@@ -156,4 +156,4 @@ MIT License - see [LICENSE](LICENSE) file for details.
 
 ---
 
-**Built for creators who demand performance** 🎵
+**Built for creators who demand performance** 🎵Public repository for demo deployment
