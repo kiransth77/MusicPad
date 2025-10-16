@@ -1,6 +1,5 @@
 import React, { memo, useCallback, useState, useEffect } from 'react';
 import DrumPad from './DrumPad';
-import PressureButton from './PressureButton';
 import { useAudioEngine } from '../hooks/useAudioEngine';
 import { DRUM_KIT } from '../audio/instruments';
 import './DrumMachine.css';

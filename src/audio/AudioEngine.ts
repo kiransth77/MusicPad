@@ -470,7 +470,7 @@ export class HighPerformanceAudioEngine {
     this.playSyntheticDrum(sampleId, velocity * layer.volume);
     return;
     
-    if (buffer && buffer.loaded) {
+  if (buffer?.loaded) {
       console.log(`🎵 Using loaded sample for ${sampleId}`);
       // Use loaded sample
       try {

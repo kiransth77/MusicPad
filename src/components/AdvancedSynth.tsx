@@ -148,10 +148,7 @@ const AdvancedSynth: React.FC<AdvancedSynthProps> = memo(({
     };
   }, [activeKeys, playNote, currentOctave]);
 
-  const handleKeyClick = useCallback((key: KeyboardKey) => {
-    const adjustedFrequency = key.frequency * Math.pow(2, currentOctave - key.octave);
-    playNote(adjustedFrequency);
-  }, [playNote, currentOctave]);
+  // handleKeyClick intentionally removed (unused) to avoid TypeScript unused variable warning
 
   const handleKeyHover = useCallback((key: KeyboardKey) => {
     return (pressure: number) => {
